@@ -12,9 +12,7 @@ for ticker, start in zip(tickers, start_prices):
     daily_returns = np.random.normal(0.0004, 0.018, len(dates))
     prices = [start]
     for r in daily_returns[1:]:
-        prices = [start]
-        for r in daily_returns[1:]:
-            prices.append(round(prices[-1] * (1 + r), 2))
+        prices.append(round(prices[-1] * (1 + r), 2))
     data[ticker] = prices[:len(dates)]
 
 df = pd.DataFrame(data)
