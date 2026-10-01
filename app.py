@@ -14,9 +14,13 @@ returns = df.set_index("Date")[tickers].pct_change().dropna()
 cum_returns = (1 + returns).cumprod() - 1
 
 # ── Dash app ──
-app = dash.Dash(__name__, title="Portfolio Risk Dashboard")
+dash_app = dash.Dash(__name__, title="Portfolio Risk Dashboard")
 
-app.layout = html.Div(style={"fontFamily": "Inter, sans-serif", "padding": "24px",
+# Vercel looks for a WSGI app called `app`, and Dash itself isn't one,
+# so hand it the Flask server Dash runs on
+app = dash_app.server
+
+dash_app.layout = html.Div(style={"fontFamily": "Inter, sans-serif", "padding": "24px",
                              "maxWidth": "1200px", "margin": "0 auto", "backgroundColor": "#f8fafc"}, children=[
 
     html.H1("Portfolio Risk Dashboard",
@@ -117,6 +121,6 @@ def updated(selected):
     return fig1, fig2, table, fig4
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8050)
+    dash_app.run(debug=True, port=8050)
     
                    
